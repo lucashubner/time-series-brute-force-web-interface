@@ -135,7 +135,10 @@ class TsResultsController < ApplicationController
         #Limpa ambiente do r
 
         #Carrega Funções no R
-        R.eval "source('/home/lucashubner/Projetos/IC/FBDT/sources.r')"
+        R.eval "path <- #{RAILS_ROOT}"
+        R.eval "path <- paste(path,'/public/FBDT/sources.r, sep='')"
+        R.eval "source(path)"
+        R.eval "add.sources(#{RAILS_ROOT})"
         
         if @ts_result.algorithm == "FBDT" 
             #chama o FBDT
