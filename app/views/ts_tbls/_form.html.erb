@@ -1,0 +1,21 @@
+<%= form_for(@ts_tbl, :html => { :multipart => true }) do |f| %>
+  <% if @ts_tbl.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ts_tbl.errors.count, "error") %> prohibited this ts_tbl from being saved:</h2>
+
+      <ul>
+      <% @ts_tbl.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label "Série Temporal" %>
+    <%= f.file_field :ts %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Upload" %>
+  </div>
+<% end %>

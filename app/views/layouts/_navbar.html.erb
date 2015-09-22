@@ -1,0 +1,31 @@
+<ul class="nav">
+    <li><%= link_to 'Home', "/home" %> </li>
+    
+    <% if user_signed_in? %>
+        <li><%= link_to 'Minhas Series', "/ts_tbls" %></li>
+    <% end %>
+    
+    <li><%= link_to "Sobre", "/about" %></li>
+    <li><%= link_to "Como utilizar", "/how_to_use" %> </li>
+</ul>
+
+<ul class="nav pull-right">
+  <li class="dropdown">
+    <% if user_signed_in? %>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <%= current_user.email %> <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><%= link_to('Logout', destroy_user_session_path, :method=>'delete') %> </li>
+            <li><%= link_to('Editar conta', edit_user_registration_path) %></li>
+        </ul>
+    <% else %>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Usuario?<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><%= link_to('Login', new_user_session_path)  %> </li>
+            <li><%= link_to('Registrar', new_user_registration_path)  %></li>
+        </ul>
+    <% end %>
+    </li>
+</ul>
+ 
+
+</ul>

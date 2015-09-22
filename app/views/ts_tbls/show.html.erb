@@ -1,0 +1,68 @@
+<p>
+    <strong>Série Temporal</strong>
+    
+    <% data = [{name: "Time Serie", data: @Serie.reject {|x| x.empty?}}] %>
+
+    <div id="serie_plot">
+        <%= line_chart data ,discrete: true , library: {curveType: "none", pointSize: 0} %>
+    </div>
+    
+</p>
+
+<p>
+    <b>
+        Histórico de Chamada do Algoritmo
+    </b>
+</p>
+
+<table class="table table-hover">
+    <tr>
+        <thead>
+            <strong>
+                <td>ID</td>
+                <td>Motif Size </td>
+                <td>Limear</td>
+                <td>Normalização</td>
+                <td>Algoritmo</td>
+                <td>Status</td>
+                <td>Mostrar</td>
+                <td>Deletar</td>
+            </strong>
+        </thead>
+    </tr>
+    <% @ts_results.each do |ts_result| %>
+        <tr>
+            <td><%= ts_result.id %></td>
+            <td><%= ts_result.motif_size %></td>
+            <td><%= ts_result.limear %> </td>
+            <td><%= ts_result.normalize %></td>
+            <td><%= ts_result.algorithm %></td>
+            <% result_path = "#{ts_result.ts_tbl.ts.path}.#{ts_result.limear}.#{ts_result.motif_size}.#{ts_result.normalize}.results" %>
+        <% if File.exist?(result_path) %>
+            <% result_path = "#{ts_result.ts_tbl.ts.url}.#{ts_result.limear}.#{ts_result.motif_size}.#{ts_result.normalize}.results" %>
+            <td><i class="icon-ok"></i></td>
+            <% else %>
+                <td><i class="icon-remove"></i></td>
+            <% end %>
+
+            <td><%= link_to ts_result, action: "show" , class:"btn btn-default" do %>
+                <i class="icon-eye-open"></i>
+                <% end %>
+            </td>
+
+            <td><%= link_to  ts_result, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-default" do %>
+                    <i class="icon-trash"></i>
+                <% end %>
+            </td>
+        </tr>
+    <% end %>
+</table>
+
+
+    <div class="btn-group text-right">
+        <p class="text-right">
+            <%= link_to 'Chamar Algoritmo', new_ts_result_path(@ts_tbl), class:"btn btn-default" %>
+
+            <%= link_to 'Voltar', ts_tbls_path, class:"btn btn-default"%>
+        </p>
+    </div>

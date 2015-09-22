@@ -1,0 +1,79 @@
+<!-- Esta função pega os dados armazenados na variavel gon.data e refaz o chart -->
+<script>
+function replace(result_number, motif_size){
+    gon.data = gon.data.slice(0,1)
+    result_number = result_number - 1
+    for(i=1; i < gon.results[result_number].length; i++){
+        gon.data.push({"data": gon.serie.slice(gon.results[result_number][i],gon.results[result_number][i]+motif_size), "name": gon.results[result_number][i] })
+    }
+ new Chartkick.LineChart("chart-1", gon.data, {"discrete":true,"library":{"curveType":"none","pointSize":0}} );
+}
+</script>
+
+
+<p>
+  <strong>Motif size:</strong>
+  <%= @ts_result.motif_size %>
+</p>
+
+<p>
+  <strong>Limear:</strong>
+  <%= @ts_result.limear %>
+</p>
+
+<p>
+  <strong>Normalize:</strong>
+  <%= @ts_result.normalize %>
+</p>
+
+<p>
+    <strong>Algorithm:</strong>
+    <%= @ts_result.algorithm %>
+</p>
+
+
+<p>
+    <strong>Resultados: </strong>
+    <% result_path = "#{@ts_result.ts_tbl.ts.path}.#{@ts_result.limear}.#{@ts_result.motif_size}.#{@ts_result.normalize}.results" %>
+    <% if File.exist?(result_path) %>
+        <% result_path = "#{@ts_result.ts_tbl.ts.url}.#{@ts_result.limear}.#{@ts_result.motif_size}.#{@ts_result.normalize}.results" %>
+        <%= link_to "Download", result_path %> 
+    <% else %>
+        Em andamento
+    <% end %>
+    
+    <% data = [{data: @Serie.reject {|x| x.empty? }, name: "Time Serie"}]  %>
+
+    <%= line_chart  data , discrete: true, library: {curveType: "none", pointSize: 0}%>
+</p>
+
+<p>
+<table class="table table-hover table-condensed">
+    <tr>
+        <thead>
+            <td>Pattern</td>
+            <td>Localization</td>
+            <td>Mostrar</td>
+        </thead>
+    </tr>
+    <tr>
+
+    <% @gon.data = data %>
+    <% @gon.results = @Results %>
+    <% @gon.serie = @Serie %>
+    
+    <% @Results.each do |result|  %>
+        <tr>
+            <td><%= result[0] %></td>
+            <td><%= result[1..result.size] %></td>
+       <td><input="button" class="btn btn-default" onclick="replace(<%= result[0] %>, <%= @ts_result.motif_size %>)"><i class="icon-zoom-in"></i></input></td>
+            </td>
+        </tr>
+    <% end %>
+</table>
+</p>
+
+<p class="text-right">
+    <%= link_to 'Voltar', @ts_result.ts_tbl, class:"btn btn-default"%>
+
+</p>

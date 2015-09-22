@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ts_tbl_id: 
+  motif_size: 1
+  limear: 1.5
+  normalize: MyString
+
+two:
+  ts_tbl_id: 
+  motif_size: 1
+  limear: 1.5
+  normalize: MyString

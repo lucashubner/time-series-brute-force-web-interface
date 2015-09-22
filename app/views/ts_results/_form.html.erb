@@ -1,0 +1,38 @@
+<%= form_for(@ts_result) do |f| %>
+  <% if @ts_result.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ts_result.errors.count, "error") %> prohibited this ts_result from being saved:</h2>
+
+      <ul>
+      <% @ts_result.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<div class ="field">
+    <%= f.hidden_field :ts_tbl_id, :value =>  @ts_tbl.id %>
+ </div>
+
+  <div class="field">
+    <%= f.label 'Tamanho do Motif: ' %>
+    <%= f.number_field :motif_size %>
+  </div>
+  <div class="field">
+    <%= f.label 'Limiar: ' %>
+    <%= f.text_field :limear %>
+  </div>
+  <div class="field">
+    <%= f.label 'Tipo de Normalização: ' %>
+    <%= f.select :normalize,([["zero_axis","zero_axis"], ["origin","origin"], ["offset","offset"], ["none","none"]]) %>
+  </div>
+    <div class="field">
+     <%= f.label 'Algoritmo: '%>
+     <%= f.select :algorithm , ([["FB","FB"],["FBDT","FBDT"]]) %>
+     
+    </div>
+  <div class="actions">
+    <%= f.submit "Adicionar chamada do algoritmo" , class:"btn btn-default" %>
+  </div>
+<% end %>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BruteForceInterface</title>
+
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application'  %>
+  <%= javascript_include_tag "http://www.google.com/jsapi", "chartkick" %>
+  
+  <%= include_gon(:init => true) %>
+  
+  <%= csrf_meta_tags %>
+</head>
+
+<body>
+
+    <div id="wrap">
+        <header class="navbar navbar-inverse">
+            <nav class="navbar-inner">
+                <%= render 'layouts/navbar' %>
+            </nav>
+        </header>
+        <%= render 'layouts/flash_messages' %>
+
+        <div id="main" role="main">
+            <div class="container">
+                <div class="content">
+                    <div class="row">
+                        <div class="span12">
+                            <%= yield %>
+                        </div>
+                    </div>
+                </div>
+            </div> <!--! end of .container -->
+        </div><!-- end of main --!>
+    </div>  <!-- end of wrap -->
+    
+    <footer class="footer">
+      <div class="container">
+        <div class="text-center">
+            <img src="/images/topo_unioeste.png" alt="UNIOESTE"  width="200px" />
+            <img src="/images/cnpq_logo.png" alt="CNPq" width="200px" />
+        </div>
+      </div>
+    </footer>
+</body>
+</html>
