@@ -33,9 +33,9 @@ class TsResultsController < ApplicationController
   respond_to do |format|
      if @ts_result.save
         #chama uma thread para o força bruta.
-        Thread.new do
-            call_brute_force
-        end
+
+        call_brute_force
+
         
         format.html {redirect_to @ts_result , notice: 'Sucesso!' }
      else
@@ -129,16 +129,18 @@ class TsResultsController < ApplicationController
                 tam_motif = @ts_result.motif_size
                 limear = @ts_result.limear
                 norm = @ts_result.normalize
-
+                pasta_base = Rails.root.to_s
+            
         #Carrega a série para o R
         R.eval "serie <- read.table('#{serie_file_path}')"
         #Limpa ambiente do r
 
         #Carrega Funções no R
-        R.eval "path <- #{RAILS_ROOT}"
-        R.eval "path <- paste(path,'/public/FBDT/sources.r, sep='')"
+        R.eval "path <- '#{pasta_base}'"
+        
+        R.eval "path <- paste(path,'/public/FBDT/sources.r', sep='')"
         R.eval "source(path)"
-        R.eval "add.sources(#{RAILS_ROOT})"
+        R.eval "add.sources('#{pasta_base}')"
         
         if @ts_result.algorithm == "FBDT" 
             #chama o FBDT
@@ -147,12 +149,15 @@ class TsResultsController < ApplicationController
              #chama o FB
             R.eval "resultados <- brute.force(as.numeric(serie[,1]), #{tam_motif}, #{limear}, '#{norm}')"
         end
+        
         #Faz o caminho para o arquivo
         R.eval "file_path <-'#{serie_file_path}.#{limear}.#{tam_motif}.#{norm}.results'"
-        
-        #Escreve os resultados em um arquivo
+           #Escreve os resultados em um arquivo
         R.eval "write.results(resultados, file_path)"
+        
+        
     end
+    
     
     helper_method :get_patterns_plot
 end
