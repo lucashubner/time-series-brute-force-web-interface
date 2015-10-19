@@ -33,9 +33,10 @@ class TsResultsController < ApplicationController
   respond_to do |format|
      if @ts_result.save
         #chama uma thread para o força bruta.
-
-        call_brute_force
-
+         Thread.new do
+            call_brute_force
+        end
+        
         
         format.html {redirect_to @ts_result , notice: 'Sucesso!' }
      else
